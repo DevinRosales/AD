@@ -1,5 +1,4 @@
-# AD
-Homework
+# AD - Homework
 
 To run the application Locally:
  pip install -r requirements.txt
