@@ -1,8 +1,8 @@
 # AD - Homework
 
 To run the application Locally:
- pip install -r requirements.txt
- python autodesk_homework.py
+ <pip install -r requirements.txt
+ python autodesk_homework.py>
 
 To Enable Logging output (Debug Mode)
  Edit line 10 of autodesk_homework.py
