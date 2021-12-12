@@ -7,26 +7,51 @@ AutoDesk programming assessment
 import requests
 from flask import Flask, request
 import logging
-DEBUG = 0
+import json
 
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.NOTSET)
-
+#Add config for url, Debug mode and logfile
+with open("config.json") as json_data_file:
+    data = json.load(json_data_file)
+url = data['url']
+debug = data['DEBUG']
+logfile = data['logfile']
+    
 app = Flask(__name__)
 
+#setup logging settings before the first request
+@app.before_first_request
+def before_first_request():
+    
+    for handler in app.logger.handlers:
+        app.logger.removeHandler(handler)
+        
+    if debug == 1:
+        logsetting=logging.DEBUG
+    else:
+        logsetting=logging.CRITICAL
+        
+    handler = logging.FileHandler(logfile)
+    handler.setLevel(logsetting)
+    formatter = logging.Formatter(fmt="%(asctime)s %(levelname)s %(module)s: %(message)s",
+                          datefmt="%H:%M:%S")
+    handler.setFormatter(formatter)
+    app.logger.addHandler(handler)
+    app.logger.setLevel(logsetting)
 
 @app.route("/", methods = ['GET'])
 def endpointRequest():
+   
+   app.logger.info('Get Request INITIATED')
+    
    if request.method == 'GET':
-       r = requests.get('https://6god8pgyzf.execute-api.us-west-2.amazonaws.com/databases')
-       d = r.json()
-       return d
+       try:
+           r = requests.get(url)
+           app.logger.info('Get request SUCCEEDED.')
+           d = r.json()
+           return d
+       except:
+           app.logger.error('Get request FAILED.')
 
 # main driver function
 if __name__ == '__main__':
-
-	# run() method of Flask class runs the application
-	# on the local development server.
-    if DEBUG == 1:
-        app.debug=True
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
