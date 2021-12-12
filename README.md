@@ -12,9 +12,7 @@ python3 autodesk_homework.py
 Docker Build steps:
 ```
 cd <path/to/repo>
-
 docker build -t ad-homework:latest .
-
 docker run -d -p 5000:5000 ad-homework
 ```
 
