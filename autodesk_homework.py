@@ -38,19 +38,20 @@ def before_first_request():
     app.logger.addHandler(handler)
     app.logger.setLevel(logsetting)
 
+#Route GET request to endpoint
 @app.route("/", methods = ['GET'])
 def endpointRequest():
    
-   app.logger.info('Get Request INITIATED')
+    app.logger.info('Get Request INITIATED')
     
-   if request.method == 'GET':
-       try:
-           r = requests.get(url)
-           app.logger.info('Get request SUCCEEDED.')
-           d = r.json()
-           return d
-       except:
-           app.logger.error('Get request FAILED.')
+    if request.method == 'GET':
+        try:
+            r = requests.get(url)
+            app.logger.info('Get request SUCCEEDED.')
+            d = r.json()
+            return d
+        except:
+            app.logger.error('Get request FAILED.')
 
 # main driver function
 if __name__ == '__main__':
