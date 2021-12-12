@@ -1,0 +1,5 @@
+{
+"DEBUG": 1,
+"url": "https://6god8pgyzf.execute-api.us-west-2.amazonaws.com/databases",
+"logfile": "./request.log"
+}
